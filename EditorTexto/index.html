@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/estilo.css">
+    <script src="https://kit.fontawesome.com/f7c3f5e49d.js" crossorigin="anonymous"></script>
+    <title>Editor de Texto</title>
+</head>
+<body onload="enableEditMode();">
+    <header>
+        <h1>Editor (RichText)</h1>
+        <button onclick="execCmd('bold');"><i class="fas fa-bold"></i></button>
+        <button onclick="execCmd('italic');"><i class="fas fa-italic"></i></button>
+        <button onclick="execCmd('underline');"><i class="fas fa-underline"></i></button>
+        <button onclick="execCmd('strikeThrough');"><i class="fas fa-strikethrough"></i></button>
+        <button onclick="execCmd('justifyLeft');"><i class="fas fa-align-left"></i></button>
+        <button onclick="execCmd('justifyCenter');"><i class="fas fa-align-center"></i></button>
+        <button onclick="execCmd('justifyRight');"><i class="fas fa-align-right"></i></button>
+        <button onclick="execCmd('justifyFull');"><i class="fas fa-align-justify"></i></button>
+        <button onclick="execCmd('cut');"><i class="fas fa-cut"></i></button>
+        <button onclick="execCmd('ident');"><i class="fas fa-indent"></i></button>
+        <button onclick="execCmd('outdent');"><i class="fas fa-dedent"></i></button>
+        <button onclick="execCmd('subscript');"><i class="fas fa-subscript"></i></button>
+        <button onclick="execCmd('superscript');"><i class="fas fa-superscript"></i></button>
+        <button onclick="execCmd('undo');"><i class="fas fa-undo"></i></button>
+        <button onclick="execCmd('redo');"><i class="fas fa-repeat"></i></button>
+        <button onclick="execCmd('insertUnorderedList');"><i class="fas fa-list-ul"></i></button>
+        <button onclick="execCmd('insertOrderedList');"><i class="fas fa-list-ul"></i></button>
+        <button onclick="execCmd('insertParagraph');"><i class="fas fa-paragraph"></i></button>
+
+        <select onchange="execCommandWithArg('formatBlock', this.value);">
+            <option value="h1">h1</option>
+            <option value="h2">h2</option>
+            <option value="h3">h3</option>
+            <option value="h4">h4</option>
+            <option value="h5">h5</option>
+            <option value="h6">h6</option>
+        </select>
+
+        <button onclick="execCmd('insertHorizontalRule');">horizontal rule</button>
+        <button onclick="execCommandWithArg('createLink', prompt('Url','http:/'+'/'));"><i class="fas fa-link"></i></button>
+        <button onclick="execCmd('unlink');"><i class="fas fa-unlink"></i></button>
+        <button onclick="sourceMode('code');"><i class="fas fa-code"></i></button>
+        <button onclick="editMode()">Edit</button>
+        <br>
+        
+        <!-- Fonts -->
+        <select onchange="execCommandWithArg('fontName', this.value);">
+            <option value="arial">Arial</option>
+            <option value="comicSans">Comi Sans</option>
+            <option value="courier">Courier</option>
+            <option value="georgia">Georgia</option>
+            <option value="tahoma">Tahoma</option>
+            <option value="timesNewRoman">Timer New Roman</option>
+            <option value="verdana">Verdana</option>
+        </select>        
+
+        <!-- Tamanho Font-->
+        <select onchange="execCommandWithArg('fontSize', this.value);">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+        </select>
+
+        Cor : <input type="color" onchange="execCommandWithArg('foreColor', this.value);"/>
+        Cor de Fundo: <input type="color"  onchange="execCommandWithArg('hitliteColor', this.value);"/>
+
+        <button onclick="execCommandWithArg('insertImage', prompt('Imagem:', ''));"><i class="fas fa-file-image"></i></button>
+        <button onclick="execCmd('selectAll');">Selecionar Tudo!</button>
+    </header>
+    
+    <!-- Text Area -->
+    <section>
+        <iframe name="richTextField" style="width: 1000px; height: 500px;"></iframe>        
+    </section>
+    
+    <footer>
+        <p id="rodape"></p>
+    </footer>
+
+    <!-- script principal  -->
+    <script type="text/javascript">
+        var showingSource = false;
+        var isEdit = true;
+        
+        function enableEditMode(){
+            richTextField.document.designMode = "On";
+        }
+
+        function execCmd(command){
+            richTextField.document.execCommand(command, false, null);
+        }
+
+        function execCommandWithArg(command, arg){
+            richTextField.document.execCommand(command, false, arg);            
+        }
+
+        function sourceMode(){
+            if(showingSource){
+                richTextField.document.getElementsByTagName('body')[0].innerHTML = 
+                richTextField.document.getElementsByTagName('body')[0].textContent;
+
+                showingSource = false;
+            }
+            else{
+                richTextField.document.getElementsByTagName('body')[0].textContent = 
+                richTextField.document.getElementsByTagName('body')[0].innerHTML;
+                showingSource = true;                
+            }
+        }
+
+        function editMode(){
+            if(isEdit){
+                richTextField.document.designMode = "Off";
+                isEdit = false;
+            }
+            else{
+                richTextField.document.designMode = "On";
+                isEdit = true;
+            }
+        }
+    </script>    
+</body>
+</html>

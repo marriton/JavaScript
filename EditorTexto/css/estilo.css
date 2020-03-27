@@ -1,0 +1,19 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+header{
+    background-color: aliceblue;
+    padding: 3px;
+}
+
+footer{
+    background-color: blue;
+    margin: 0px;
+}
+
+.richTextField{
+    width: 600px;
+    height: 300px; 
+}
